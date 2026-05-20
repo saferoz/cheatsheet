@@ -138,6 +138,7 @@
 <nav>
   <div class="nav-logo">vibe<span>.</span>coder</div>
   <a href="#cursor">Cursor</a>
+  <a href="#deploy">One-Command Deploy</a>
   <a href="#claude">+ Claude</a>
   <a href="#emergent">Emergent</a>
   <a href="#pr">Pull Request</a>
@@ -154,7 +155,7 @@
       <h1>Vibe Coder <span>Git</span> Cheatsheet</h1>
       <span class="header-tag">v1.0-stable-certificate-ui</span>
     </div>
-    <p class="subtitle">Cursor · Claude · Emergent → GitHub → Vercel — your complete workflow reference</p>
+    <p class="subtitle">Cursor · Claude · Emergent → GitHub → Vercel — your complete workflow reference &nbsp;·&nbsp; branches: <span style="color:var(--green);font-family:var(--mono);font-size:12px">alpha → beta → main</span></p>
   </header>
 
   <!-- 01 CURSOR -->
@@ -168,21 +169,21 @@
       <span class="flow-step">Open Cursor</span><span class="flow-arrow">→</span>
       <span class="flow-step">Build / edit with AI</span><span class="flow-arrow">→</span>
       <span class="flow-step">npm start (test locally)</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Push to Preview-Test</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Check Vercel preview</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Squash merge to main</span>
+      <span class="flow-step">Push to alpha</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Merge to beta → check Vercel preview</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Merge to main</span>
     </div>
     <div class="cards">
       <div class="card">
         <div class="card-title">Start new work</div>
-        <div class="code-wrap"><code>git checkout Preview-Test</code><span class="copy-btn">copy</span></div>
-        <div class="code-wrap"><code>git pull origin Preview-Test</code><span class="copy-btn">copy</span></div>
+        <div class="code-wrap"><code>git checkout alpha</code><span class="copy-btn">copy</span></div>
+        <div class="code-wrap"><code>git pull origin alpha</code><span class="copy-btn">copy</span></div>
       </div>
       <div class="card">
         <div class="card-title">Save & push</div>
         <div class="code-wrap"><code>git add .</code><span class="copy-btn">copy</span></div>
-        <div class="code-wrap"><code>git commit -m "feat: what you built"</code><span class="copy-btn">copy</span></div>
-        <div class="code-wrap"><code>git push origin Preview-Test</code><span class="copy-btn">copy</span></div>
+        <div class="code-wrap"><code>git commit -m "feat: PUT YOUR DESC HERE"</code><span class="copy-btn">copy</span></div>
+        <div class="code-wrap"><code>git push origin alpha</code><span class="copy-btn">copy</span></div>
       </div>
       <div class="card">
         <div class="card-title">Tag a win</div>
@@ -192,8 +193,8 @@
       <div class="card">
         <div class="card-title">Emergency rollback</div>
         <div class="code-wrap"><code>git reset --hard v1.0-stable-...</code><span class="copy-btn">copy</span></div>
-        <div class="code-wrap"><code>git push origin Preview-Test --force</code><span class="copy-btn">copy</span></div>
-        <div class="code-wrap"><code>git push origin Preview-Test:main --force</code><span class="copy-btn">copy</span></div>
+        <div class="code-wrap"><code>git push origin alpha --force</code><span class="copy-btn">copy</span></div>
+        <div class="code-wrap"><code>git push origin alpha:main --force</code><span class="copy-btn">copy</span></div>
       </div>
       <div class="card">
         <div class="card-title">Quick status check</div>
@@ -215,7 +216,38 @@
 
   <hr>
 
-  <!-- 02 CLAUDE -->
+  <!-- 01b ONE-COMMAND DEPLOY -->
+  <div class="section" id="deploy">
+    <div class="section-header">
+      <span class="section-num">01b</span>
+      <h2>One-Command Deploy</h2>
+      <span class="badge badge-green">PowerShell · Windows · Full confidence</span>
+    </div>
+    <div class="tip">
+      <strong>PowerShell uses <code style="color:var(--green);font-family:var(--mono)">;</code> not <code style="color:var(--red);font-family:var(--mono)">&&</code></strong>
+      The <span class="ic">;</span> separator runs the next command even if the previous one fails — so scan the output for any red errors after running. For risky deploys, run line by line.
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Currently on <span style="color:var(--green)">alpha</span> — most common, your working branch</div>
+      <div class="code-wrap"><code>git add . ; git commit -m "chore: PUT YOUR DESC HERE" ; git push origin alpha ; git checkout beta ; git merge alpha ; git push origin beta ; git checkout main ; git merge beta ; git push origin main ; git checkout alpha</code><span class="copy-btn">copy</span></div>
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Currently on <span style="color:var(--blue)">beta</span> — already tested, just cascading up</div>
+      <div class="code-wrap"><code>git push origin beta ; git checkout main ; git merge beta ; git push origin main ; git checkout beta</code><span class="copy-btn">copy</span></div>
+    </div>
+
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;font-family:var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Currently on <span style="color:var(--red)">main</span> — rare, hotfix only</div>
+      <div class="code-wrap"><code>git add . ; git commit -m "fix: PUT YOUR DESC HERE" ; git push origin main</code><span class="copy-btn">copy</span></div>
+    </div>
+
+    <div class="tip">
+      <strong>Commit message templates — replace PUT YOUR DESC HERE with:</strong>
+      <span class="ic">feat: add X</span> &nbsp;new feature &nbsp;·&nbsp; <span class="ic">fix: broken Y</span> &nbsp;bug fix &nbsp;·&nbsp; <span class="ic">chore: clean up Z</span> &nbsp;maintenance &nbsp;·&nbsp; <span class="ic">style: update navbar</span> &nbsp;visual only &nbsp;·&nbsp; <span class="ic">refactor: simplify X</span> &nbsp;code cleanup
+    </div>
+  </div>
   <div class="section" id="claude">
     <div class="section-header">
       <span class="section-num">02</span>
@@ -263,10 +295,10 @@
     </div>
     <div class="flow">
       <span class="flow-step">Emergent → new chat</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Pull from Preview-Test repo</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Pull from alpha repo</span><span class="flow-arrow">→</span>
       <span class="flow-step">Build feature</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Emergent pushes to Preview-Test</span><span class="flow-arrow">→</span>
-      <span class="flow-step">Check Vercel preview</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Emergent pushes to alpha</span><span class="flow-arrow">→</span>
+      <span class="flow-step">Merge to beta → check Vercel preview</span><span class="flow-arrow">→</span>
       <span class="flow-step">GitHub → Squash merge to main</span>
     </div>
     <div class="tip">
@@ -275,7 +307,7 @@
     </div>
     <div class="tip">
       <strong>After Emergent pushes, sync Cursor before editing again:</strong>
-      <span class="ic">git checkout Preview-Test</span> then <span class="ic">git pull origin Preview-Test</span> — so Cursor always has the latest before you start.
+      <span class="ic">git checkout alpha</span> then <span class="ic">git pull origin alpha</span> — so Cursor always has the latest before you start.
     </div>
   </div>
 
@@ -307,7 +339,7 @@
         <div class="pr-num">3</div>
         <div class="pr-content">
           <div class="pr-title">Set the correct branches</div>
-          <div class="pr-desc"><strong style="color:var(--text)">base:</strong> <span class="ic">main</span> ← <strong style="color:var(--text)">compare:</strong> <span class="ic">Preview-Test</span><br>This means "merge Preview-Test INTO main".</div>
+          <div class="pr-desc"><strong style="color:var(--text)">base:</strong> <span class="ic">main</span> ← <strong style="color:var(--text)">compare:</strong> <span class="ic">beta</span><br>This means "merge beta INTO main".</div>
         </div>
       </div>
       <div class="pr-step">
@@ -337,7 +369,7 @@
           <div class="pr-title">Sync your local branches after merge</div>
           <div class="code-wrap" style="margin-top:6px"><code>git checkout main</code><span class="copy-btn">copy</span></div>
           <div class="code-wrap"><code>git pull origin main</code><span class="copy-btn">copy</span></div>
-          <div class="code-wrap"><code>git checkout Preview-Test</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git checkout alpha</code><span class="copy-btn">copy</span></div>
         </div>
       </div>
     </div>
@@ -362,8 +394,8 @@
         <div class="error-body">
           <p class="error-why">GitHub has commits your local doesn't. Usually happens when Emergent or a GitHub action pushed something after you last pulled.</p>
           <div class="error-fix-label">fix — pull first, then push</div>
-          <div class="code-wrap"><code>git pull origin Preview-Test --rebase</code><span class="copy-btn">copy</span></div>
-          <div class="code-wrap"><code>git push origin Preview-Test</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git pull origin alpha --rebase</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git push origin alpha</code><span class="copy-btn">copy</span></div>
         </div>
       </div>
 
@@ -378,7 +410,7 @@
           <p class="error-why">Look for <span class="ic">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</span> markers in the file. Delete the version you don't want and the markers themselves. Then:</p>
           <div class="code-wrap"><code>git add .</code><span class="copy-btn">copy</span></div>
           <div class="code-wrap"><code>git commit -m "fix: resolve merge conflict"</code><span class="copy-btn">copy</span></div>
-          <div class="code-wrap"><code>git push origin Preview-Test</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git push origin alpha</code><span class="copy-btn">copy</span></div>
         </div>
       </div>
 
@@ -388,23 +420,23 @@
           <span class="error-msg">HEAD detached at a3f92b1</span>
         </div>
         <div class="error-body">
-          <p class="error-why">You're looking at an old commit but not on any branch. Any new commits here won't be saved to Preview-Test or main.</p>
+          <p class="error-why">You're looking at an old commit but not on any branch. Any new commits here won't be saved to alpha, beta, or main.</p>
           <div class="error-fix-label">fix — get back on your branch</div>
-          <div class="code-wrap"><code>git checkout Preview-Test</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git checkout alpha</code><span class="copy-btn">copy</span></div>
         </div>
       </div>
 
       <div class="error-card">
         <div class="error-head">
           <span class="error-label">ERROR</span>
-          <span class="error-msg">Your branch and 'origin/Preview-Test' have diverged</span>
+          <span class="error-msg">Your branch and 'origin/alpha' have diverged</span>
         </div>
         <div class="error-body">
           <p class="error-why">Local and remote went in different directions. This is exactly what caused your situation today.</p>
           <div class="error-fix-label">fix A — trust your local, overwrite remote</div>
-          <div class="code-wrap"><code>git push origin Preview-Test --force</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git push origin alpha --force</code><span class="copy-btn">copy</span></div>
           <div class="error-fix-label" style="margin-top:10px">fix B — trust remote, overwrite local</div>
-          <div class="code-wrap"><code>git reset --hard origin/Preview-Test</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git reset --hard origin/alpha</code><span class="copy-btn">copy</span></div>
         </div>
       </div>
 
@@ -417,7 +449,7 @@
           <p class="error-why">Git thinks nothing changed. The files you edited may have been untracked or you may be in the wrong folder.</p>
           <div class="error-fix-label">fix — verify what git actually sees</div>
           <div class="code-wrap"><code>git status</code><span class="copy-btn">copy</span></div>
-          <div class="code-wrap"><code>git log --oneline origin/Preview-Test -3</code><span class="copy-btn">copy</span></div>
+          <div class="code-wrap"><code>git log --oneline origin/alpha -3</code><span class="copy-btn">copy</span></div>
           <p class="error-why" style="margin-top:8px">If the top commit matches what you want, GitHub already has your code. Issue is your hosting platform — check Vercel.</p>
         </div>
       </div>
@@ -431,6 +463,19 @@
           <p class="error-why">You used a bash command in PowerShell. rm -rf doesn't exist here.</p>
           <div class="error-fix-label">fix — use PowerShell syntax</div>
           <div class="code-wrap"><code>Remove-Item -Recurse -Force folder-name/</code><span class="copy-btn">copy</span></div>
+        </div>
+      </div>
+
+      <div class="error-card">
+        <div class="error-head">
+          <span class="error-label">POWERSHELL</span>
+          <span class="error-msg">The token '&&' is not a valid statement separator in this version</span>
+        </div>
+        <div class="error-body">
+          <p class="error-why">You used <span class="ic">&&</span> which is bash/Linux syntax. PowerShell uses <span class="ic">;</span> as a command separator instead. This affects all one-liner deploy commands.</p>
+          <div class="error-fix-label">fix — replace && with ; in all chained commands</div>
+          <div class="code-wrap"><code>git add . ; git commit -m "chore: PUT YOUR DESC HERE" ; git push origin alpha</code><span class="copy-btn">copy</span></div>
+          <p class="error-why" style="margin-top:8px">⚠️ Note: <span class="ic">;</span> runs the next command even if the previous fails. Run line by line if something feels risky.</p>
         </div>
       </div>
 
@@ -449,7 +494,7 @@
     <div class="vercel-grid">
       <div class="v-card">
         <div class="v-card-head"><div class="v-dot v-dot-red"></div><div class="v-card-title">Build failed</div></div>
-        <p>Vercel → your project → failed deployment → click "View build logs". Look for the red error at the bottom. Usually a missing import or broken syntax. Fix in Cursor, push to Preview-Test, Vercel auto-retries.</p>
+        <p>Vercel → your project → failed deployment → click "View build logs". Look for the red error at the bottom. Usually a missing import or broken syntax. Fix in Cursor, push to alpha, Vercel auto-retries.</p>
       </div>
       <div class="v-card">
         <div class="v-card-head"><div class="v-dot v-dot-amber"></div><div class="v-card-title">Pushed to GitHub but Vercel didn't deploy</div></div>
@@ -469,7 +514,7 @@
       </div>
       <div class="v-card">
         <div class="v-card-head"><div class="v-dot v-dot-green"></div><div class="v-card-title">Preview vs Production</div></div>
-        <p>Preview-Test branch → Vercel Preview URL (for testing). Main branch → Vercel Production URL (your live site). Always verify on Preview URL before merging to main.</p>
+        <p>beta branch → Vercel Preview URL (for testing). Main branch → Vercel Production URL (your live site). Always verify on Preview URL before merging to main.</p>
       </div>
     </div>
   </div>
@@ -483,13 +528,14 @@
       <h2>Golden Rules</h2>
     </div>
     <div class="rules">
-      <div class="rule"><strong>Never commit directly to main</strong><span>Always go through Preview-Test. Main = production = live site.</span></div>
+      <div class="rule"><strong>Never commit directly to main</strong><span>Always go through alpha → beta. Main = production = live site.</span></div>
       <div class="rule"><strong>Tag every big win</strong><span>git tag v1.x-name after every feature that works perfectly.</span></div>
       <div class="rule"><strong>Pull before you build</strong><span>Always git pull before starting new work. Avoids diverged branch mess.</span></div>
       <div class="rule"><strong>Check Vercel before merging</strong><span>Never merge blind into production. Verify the preview URL first.</span></div>
       <div class="rule"><strong>Force push = last resort</strong><span>Only use --force in emergencies. It rewrites history permanently.</span></div>
       <div class="rule"><strong>Squash merge from Emergent</strong><span>Keeps main history clean. One feature = one commit on main.</span></div>
-      <div class="rule"><strong>reflog is your time machine</strong><span>You can ALWAYS recover. Every action is logged. Never panic.</span></div>
+      <div class="rule"><strong>PowerShell: use ; not &&</strong><span>Windows PowerShell uses ; to chain commands. && is bash only and will error.</span></div>
+      <div class="rule"><strong>Branch names: lowercase only</strong><span>Avoid capitals — Preview-Test vs preview-test caused a real typo. alpha, beta, main = no ambiguity.</span></div>
       <div class="rule"><strong>Test in incognito first</strong><span>Before assuming a deploy failed, check private window — it's often just browser cache.</span></div>
     </div>
   </div>
@@ -515,14 +561,14 @@
       <div class="term"><span class="term-word">reflog</span><span class="term-def">Your Git time machine — every action ever taken</span></div>
       <div class="term"><span class="term-word">HEAD</span><span class="term-def">Where you are right now in Git history</span></div>
       <div class="term"><span class="term-word">origin</span><span class="term-def">The remote copy of your repo on GitHub</span></div>
-      <div class="term"><span class="term-word">detached HEAD</span><span class="term-def">Browsing old commit, not on any branch — run git checkout Preview-Test to escape</span></div>
+      <div class="term"><span class="term-word">detached HEAD</span><span class="term-def">Browsing old commit, not on any branch — run git checkout alpha to escape</span></div>
       <div class="term"><span class="term-word">rebase</span><span class="term-def">Rewrite commit history to be cleaner — use only when Claude tells you to</span></div>
     </div>
   </div>
 
   <footer>
     <span>saferoz</span>
-    <span>CV-website-v2 · Preview-Test → main · Cursor + Emergent + Claude</span>
+    <span>CV-website-v2 · alpha → beta → main · Cursor + Emergent + Claude</span>
   </footer>
 
 </div>
